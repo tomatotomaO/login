@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=2.0 maximum-scale=1.0, user-scalable=0" >
+    <title>반응형 웹사이트</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            font-size: 70px;
+        }
+
+        .navbar {
+            background-color: #333;
+            overflow: hidden;
+            transition: background-color 0.5s ease
+        }
+
+        .navbar a {
+            float: left;
+            display: block;
+            color: rgb(230, 230, 230);
+            text-align: center;
+            padding: 20px;
+            text-decoration: none;
+        }
+        .navbar div.options {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .navbar a:hover {
+            background-color: rgb(230, 230, 230);
+            color:#4CAF50;
+        }
+
+        .navbar a.active {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .navbar .icon {
+            display: none;
+            color: rgb(230, 230, 230);
+        }
+
+        @media screen and (max-width: 1300px) {
+            .navbar {
+              background-color:rgba(255,255,255,0);
+              transition: background-color 0.5s ease;
+            }
+            .navbar div.options{
+              display: none;
+            }
+            .navbar a.active {
+              display: block;
+              background-color:rgba(255,255,255,0);
+              color: #4CAF50;
+              font-size: 50px;
+              text-align: left;
+              transition: background-color 0.5s ease, color 0.5s ease;
+            
+        }
+
+            .navbar a.icon {
+                display: block;
+                float: right;
+                font-size: 50px;
+                font-weight: lighter;
+                transition: background-color 0.5s ease, color 0.5s ease;
+            }
+        }
+
+        @media screen and (max-width: 1300px) {
+            .navbar.responsive a.icon {
+                position: absolute;
+                right: 0;
+                top: 0;
+                font-size: 50px;
+                color: #4CAF50;
+                transition: background-color 0.5s ease, color 0.5s ease;
+            }
+            .navbar.responsive div.options {
+                float: none;
+                display: flex;
+                text-align:left;
+                font-size: 40px;
+                padding-top: 100px;
+                padding-bottom: 50px;
+                justify-content: flex-end;
+                flex-direction: column;
+                padding-right: 50px;
+                align-items: flex-end;                
+            }
+
+            .navbar.responsive div.options a{
+              transition: background-color 0.5s ease, color 0.5s ease;
+              display: inline-block;
+              width: 75px;
+            }
+            .navbar.responsive div.options a:hover {
+                background-color: rgba(255,255,255,0);
+                color:greenyellow;
+            }
+
+            .navbar.responsive {
+                position: relative;
+            }
+
+            .navbar.responsive a.active {
+                font-size: 50px;
+            }
+        }
+
+        .login {
+            background-color: white;
+            display: inline-block;
+            margin: 30px 30px 30px 50px;
+            padding: 40px 60px 40px 50px;
+            border-radius: 5%;
+            border-style: inset;
+            border-width: 3px;
+            border-color: #4CAF50;
+            position: relative;
+        }
+
+        .login label {
+            margin-bottom: 10px;
+            font-size: 50px;
+        }
+
+        .login input {
+            font-size: 50px;
+            padding: 10px;
+        }
+
+
+        .login input[type="submit"] {
+            font-size: 50px;
+            padding: 15px;
+            cursor: pointer;
+            margin-top: 20px;
+            padding-left: 205px;
+            padding-right: 205px;
+            border: none;
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        #toast {
+            visibility: hidden;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+            font-size: 30px;
+            border-radius: 10px;
+            padding: 16px;
+            position: absolute;
+            display: block;
+            float: left;
+            z-index: 1;
+            transform: translateY(80%);
+
+            
+            
+        }
+
+        #toast.reveal {
+            visibility: visible;
+            animation: fadeIn 0.5s, fadeOut 0.5s 2.5s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar" id="myNavbar">
+    <a href="#logo" class="active">WEB</a>
+    <div class="options">
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#contact">Contact</a>
+        <a href="#faq">FAQ</a>
+    </div>
+    <a href="javascript:void(0);" class="icon" onclick="myFunction()">menu</a>
+</div>
+
+<div class="login">
+        <label for="IDinput"></label>
+        <input type="text" id="IDinput" placeholder="ID">
+        <br>
+        <label for="PWinput"></label>
+        <input type="password" id="PWinput" placeholder="PW">
+        <br>
+        <input type="submit" value="로그인" onclick="checkLogin()">
+        <div id="toast"></div>
+</div>
+
+
+<script>
+
+    var correctID = 'loginID';
+    var correctPW = '12345@';
+
+
+    function myFunction() {
+        var x = document.getElementById("myNavbar");
+        if (x.className === "navbar") {
+            x.className += " responsive";
+        } else {
+            x.className = "navbar";
+        }
+    }
+
+
+
+    function checkLogin() {
+
+        var inputID = document.getElementById("IDinput").value;
+        var inputPW = document.getElementById("PWinput").value;
+        if (inputID === correctID && inputPW === correctPW) {
+            showToast("로그인 성공!");
+        } else {
+            showToast("아이디 또는 비밀번호가 일치하지 않습니다.");
+            document.getElementById("IDinput").value = "";
+        document.getElementById("PWinput").value = "";
+        }
+
+    }
+
+
+    function showToast(message) {
+        
+    var toast = document.getElementById('toast');
+    toast.classList.contains("reveal") ?
+        (clearTimeout(removeToast), removeToast = setTimeout(function () {
+            document.getElementById("toast").classList.remove("reveal")
+        }, 1000)) :
+        removeToast = setTimeout(function () {
+            document.getElementById("toast").classList.remove("reveal")
+        }, 1000)
+    toast.classList.add("reveal"),
+        toast.innerText = message
+
+}
+
+</script>
+</body>
+</html>
